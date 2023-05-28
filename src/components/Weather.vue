@@ -54,7 +54,7 @@ defineExpose({
             <div>気温：{{ (weatherData.main.temp - 273.15).toFixed(1) }} ℃</div>
             <div>最高気温：{{ (weatherData.main.temp_max - 273.15).toFixed(1) }} ℃</div>
             <div>最低気温：{{ (weatherData.main.temp_min - 273.15).toFixed(1) }} ℃</div>
-            <div>体感温度：{{ (weatherData.main.feels_like - 273.15).toFixed(1) }} %</div>
+            <div>体感温度：{{ (weatherData.main.feels_like - 273.15).toFixed(1) }} ℃</div>
             <div>湿度：{{ weatherData.main.humidity }} %</div>
             <div>気圧：{{ weatherData.main.pressure }} hPa</div>
             <div>風速：{{ weatherData.wind.speed }} m/s</div>
