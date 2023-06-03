@@ -4,8 +4,8 @@ import axios from 'axios';
 const api_key = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
 export function useGeocodingData() {
-    const lat = ref(0);
-    const lon = ref(0);
+    const lat = ref(null);
+    const lon = ref(null);
     const geocodingDataErrorMessage = ref("");
 
     const fetchGeocodingData = async (cityName) => {
