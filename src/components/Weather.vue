@@ -1,7 +1,10 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref } from 'vue';
 import { useGeocodingData } from "../composables/useGeocodingData.js";
 import { useCurrentWeatherData } from "../composables/useCurrentWeatherData.js";
+
+// 都市名
+const cityName = ref('');
 
 // 都市名から緯度経度を取得
 const { lat, lon, geocodingDataErrorMessage, fetchGeocodingData } = useGeocodingData();
@@ -34,9 +37,6 @@ const convertUtcToJst = (timestamp) => {
     return jstDate;
 }
 
-// コンポーネントがマウントされた後に呼び出されるコールバック関数
-onMounted(() => fetchWeather('Tokyo'));
-
 // defineExpose を使用してコンポーネント内に定義されたメソッドを親コンポーネントから参照できる様にしています。
 defineExpose({
     convertUtcToJst,
@@ -44,8 +44,28 @@ defineExpose({
 </script>
 
 <template>
+    <h1>天気予報</h1>
+
+    <!-- 都市名入力エリア 開始 -->
+    <input v-model="cityName" />
+    <!-- 都市名入力エリア 終了 -->
+
+    <!-- 都市名入力ボタン 開始 -->
+    <button @click="fetchWeather(cityName)">Click</button>
+    <!-- 都市名入力ボタン 終了 -->
+
+    <!-- エラー表示エリア 開始 -->
+    <div v-if="geocodingDataErrorMessage">
+        {{ geocodingDataErrorMessage }}
+    </div>
+    <div v-if="currentWeatherDataErrorMessage">
+        {{ currentWeatherDataErrorMessage }}
+    </div>
+     <!-- エラー表示エリア 終了 -->
+
+    <!-- 天気情報表示エリア 開始 -->
     <div v-if="weatherData">
-        <h1>{{ weatherData.name }}の天気</h1>
+        <h2>{{ weatherData.name }}の天気</h2>
         <div v-if="weatherData.weather">
             <div v-for="weather in weatherData.weather">
                 <div>{{ weather.description }}</div>
@@ -62,12 +82,8 @@ defineExpose({
             <div>雲量：{{ weatherData.clouds.all }} %</div>
         </div>
     </div>
-    <div v-if="geocodingDataErrorMessage">
-        {{ geocodingDataErrorMessage }}
-    </div>
-    <div v-if="currentWeatherDataErrorMessage">
-        {{ currentWeatherDataErrorMessage }}
-    </div>
+    <!-- 天気情報表示エリア 終了 -->
+
 </template>
 
 <style scoped>
